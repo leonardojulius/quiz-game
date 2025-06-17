@@ -31,13 +31,13 @@ body {
 /* SCREENS */
 
 .screen {
-  display: none;
-  padding: 2rem;
-  text-align: center;
+    display: none;
+    padding: 2rem;
+    text-align: center;
 }
 
 .screen.active {
-  display: block;
+    display: block;
 }
 
 /* START SCREEN */
@@ -158,6 +158,40 @@ button {
 
 button:hover {
     background-color: #d45b28;
+}
+
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width:500px) {
+    /* when we hit 500px and below, implement the styles below */
+
+    .screen {
+        padding: 1rem;
+    }
+
+    #start-screen h1 {
+        font-size: 2rem;
+    }
+
+    #question-text{
+        font-size: 1.3rem;
+    }
+
+
+    .answer-btn{
+        padding: 12px;
+    }
+
+
+    button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+
+
 
 }
+
 
