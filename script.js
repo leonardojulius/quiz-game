@@ -106,6 +106,25 @@ function showQuestion(){
     currentQuestionSpan.textContent = currentQuestionIndex + 1
 
     const progressPercent = (currentQuestionIndex / quizQuestions.length ) * 100;
-    progressBar.style.width = progress
+    progressBar.style.width = progress + "%"
+    
+    questionText.textContent = currentQuestion.question
+
+    answersContainer.innerHTML = "";
+
+    currentQuestion.answers.forEach(answer=> {
+      
+      const button = document.createElement("button")
+      button.textContent = answer.text
+      button.classList.add("answer-btn")
+
+    });
+
+}
+
+function restartQuiz() {
+
+  consol.log("quiz re-started");
+
 
 }
