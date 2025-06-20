@@ -16,6 +16,7 @@ const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
 
 
+//question bank
 const quizQuestions = [
   {
     question: "What is the capital of France?",
@@ -118,8 +119,78 @@ function showQuestion(){
       button.textContent = answer.text
       button.classList.add("answer-btn")
 
-    });
+      // what is dataset? it's a propert of the button element that allows you to store custom data
 
+      button.dataset.correct = answer.correct;
+
+      button.addEventListener("click",selectAnswer);
+
+    });
+    
+
+}
+
+function selectAnswer(e) {
+
+  if(answersDisabled ) return
+
+  answersDisabled = true
+
+  const selectedButton = event.target;
+  const isCorrect = selectedButton.dataset.correct === "true";
+
+  // todo : explain this in a sec
+
+  Array.from(answersContainer.children).forEach((button) => {
+
+    if(button.dataset.correct ==="true"){
+      button.classList.add("correct");
+    }else{
+      button.classList.add("incorrect");
+    }
+
+
+  });
+
+  if(isCorrect) {
+    score++;
+    scoreSpan.textContent = score
+  }
+
+  setTimeout(() => {
+
+    currentQuestionIndex++;
+
+    if(currentQuestionIndex < quizQuestions.length){
+
+      showQuestion()
+
+    }else {
+      showResults()
+    }
+
+  },1000);
+}
+
+function showResults(){
+  quizScreen.classList.remove("active")
+  resultScreen.classList.add("active")
+
+  finalScoreSpan.textContent = score;
+
+  const percentage = (score/quizQuestions.length) * 100
+
+ if (percentage === 100) {
+    resultMessage.textContent = "Perfect! You're a genius!";
+  } else if (percentage >= 80) {
+    resultMessage.textContent = "Great job! You know your stuff!";
+  } else if (percentage >= 60) {
+    resultMessage.textContent = "Good effort! Keep learning!";
+  } else if (percentage >= 40) {
+    resultMessage.textContent = "Not bad! Try again to improve!";
+  } else {
+    resultMessage.textContent = "Keep studying! You'll get better!";
+  }
 }
 
 function restartQuiz() {
