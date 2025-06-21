@@ -1,5 +1,4 @@
-//DOM Elements
-
+// DOM Elements
 const startScreen = document.getElementById("start-screen");
 const quizScreen = document.getElementById("quiz-screen");
 const resultScreen = document.getElementById("result-screen");
@@ -16,7 +15,8 @@ const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
 
 
-//question bank
+
+
 const quizQuestions = [
   {
     question: "What is the capital of France?",
@@ -65,10 +65,9 @@ const quizQuestions = [
   },
 ];
 
+// QUIZ state vars
 
-//Quiz state vars
-
-let currentQuestionIndex = 0;
+let currentQuestionIOndex = 0;
 let score = 0;
 let answersDisabled = false;
 
@@ -76,126 +75,73 @@ let answersDisabled = false;
 totalQuestionsSpan.textContent = quizQuestions.length;
 maxScoreSpan.textContent = quizQuestions.length;
 
-//event listeners
+
+// event listeners
 
 startButton.addEventListener("click", startQuiz);
-restartButton.addEventListener("click", resetQuiz);
+restartButton.addEventListener("click", restartQuiz);
 
 
-function startQuiz () {
-    //reset values 
+function startQuiz() {
 
-    currentQuestionIndex = 0;
-    scoreSpan.textContent = 0;
+  currentQuestionIndex = 0;
+  score = 0;
+  scoreSpan.textContent = 0;
 
-    startScreen.classList.remove("active");
-    quizScreen.classList.add("active");
+  startScreen.classList.remove("active");
+  quizScreen.classList.add("active");
 
-    showQuestion();
+  showQuestion();
 
-    
-}
-
-function showQuestion(){
-
-    //reset state
-
-    answersDisabled = false
-    
-    const currentQuestion = quizQuestions[currentQuestionIndex]
-    
-    currentQuestionSpan.textContent = currentQuestionIndex + 1
-
-    const progressPercent = (currentQuestionIndex / quizQuestions.length ) * 100;
-    progressBar.style.width = progress + "%"
-    
-    questionText.textContent = currentQuestion.question
-
-    answersContainer.innerHTML = "";
-
-    currentQuestion.answers.forEach(answer=> {
-      
-      const button = document.createElement("button")
-      button.textContent = answer.text
-      button.classList.add("answer-btn")
-
-      // what is dataset? it's a propert of the button element that allows you to store custom data
-
-      button.dataset.correct = answer.correct;
-
-      button.addEventListener("click",selectAnswer);
-
-    });
-    
 
 }
 
-function selectAnswer(e) {
 
-  if(answersDisabled ) return
+function showQuestion() {
 
-  answersDisabled = true
+  //reset state
+
+  answersDisabled = false;
+
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+
+  currentQuestionSpan.textContent = currentQuestionIndex + 1;
+
+  const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+  progressBar.style.width = progressPercent + "%";
+
+  questionText.textContent = currentQuestion.question;
+
+
+  currentQuestion.answers.forEach((answer)=> {
+
+    const button = document.createElement("button");
+    button.textContent = answer.text;
+    button.classList.add("answer-btn");
+
+    //data set
+
+    button.dataset.correct = answer.correct;
+    button.addEventListener("click", selectAnswer);
+
+    answersContainer.appendChild(button);
+  });
+}
+
+
+function selectAnswer(event) {
+  //
+
+  if(answersDisabled) return;
+
+  answersDisabled = true;
 
   const selectedButton = event.target;
   const isCorrect = selectedButton.dataset.correct === "true";
 
-  // todo : explain this in a sec
-
-  Array.from(answersContainer.children).forEach((button) => {
-
-    if(button.dataset.correct ==="true"){
-      button.classList.add("correct");
-    }else{
-      button.classList.add("incorrect");
-    }
 
 
-  });
-
-  if(isCorrect) {
-    score++;
-    scoreSpan.textContent = score
-  }
-
-  setTimeout(() => {
-
-    currentQuestionIndex++;
-
-    if(currentQuestionIndex < quizQuestions.length){
-
-      showQuestion()
-
-    }else {
-      showResults()
-    }
-
-  },1000);
-}
-
-function showResults(){
-  quizScreen.classList.remove("active")
-  resultScreen.classList.add("active")
-
-  finalScoreSpan.textContent = score;
-
-  const percentage = (score/quizQuestions.length) * 100
-
- if (percentage === 100) {
-    resultMessage.textContent = "Perfect! You're a genius!";
-  } else if (percentage >= 80) {
-    resultMessage.textContent = "Great job! You know your stuff!";
-  } else if (percentage >= 60) {
-    resultMessage.textContent = "Good effort! Keep learning!";
-  } else if (percentage >= 40) {
-    resultMessage.textContent = "Not bad! Try again to improve!";
-  } else {
-    resultMessage.textContent = "Keep studying! You'll get better!";
-  }
-}
-
-function restartQuiz() {
-
-  consol.log("quiz re-started");
-
-
+  Array.from(answersContainer.children).forEach((button)=>{
+    
+  })
 }
